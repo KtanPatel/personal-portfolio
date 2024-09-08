@@ -41,6 +41,8 @@ export const profile = {
   resumeLink: `https://www.uvic.ca/career-services/_assets/docs/resume-computer-engineering.pdf`,
   linkedInLink: "https://www.linkedin.com/in/ktanpatel",
   githubLink: "https://github.com/KtanPatel",
+  scheduleLink: "",
+  upworkLink: "https://www.upwork.com/freelancers/~01d6dbe290bf3fc9bd",
 } as const;
 
 export const links = [

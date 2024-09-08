@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { BsArrowDown, BsLinkedin } from "react-icons/bs";
@@ -10,10 +10,16 @@ import { FaGithubSquare } from "react-icons/fa";
 import { useSectionInView } from "@/lib/hooks";
 import { useActiveSectionContext } from "@/context/active-section-context";
 import { profile } from "@/lib/data";
+import { PopupModal } from "react-calendly";
 
 export default function Intro() {
   const { ref } = useSectionInView("Home", 0.5);
   const { setActiveSection, setTimeOfLastClick } = useActiveSectionContext();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   return (
     <section
@@ -142,6 +148,44 @@ export default function Intro() {
         >
           <FaGithubSquare />
         </a>
+      </motion.div>
+
+      <motion.div
+        className="flex flex-col sm:flex-row items-center justify-center gap-4 px-4 text-lg font-medium mt-4"
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          delay: 0.1,
+        }}
+      >
+        <button
+          onClick={openModal}
+          className={`group bg-gray-900 text-white px-7 py-3 flex items-center gap-2 rounded-full outline-none focus:scale-110 hover:scale-110 hover:bg-gray-950 active:scale-105 transition ${profile.scheduleLink ? 'block' : 'hidden'
+            }`}
+        >
+          Schedule a call
+        </button>
+        <div id="__next"></div>
+        <PopupModal
+          url={profile.scheduleLink}
+          rootElement={document.getElementById("__next")!}
+          onModalClose={closeModal}
+          open={isModalOpen}
+        />
+        <Link
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex gap-2 border-[#14a800] border items-center   px-7 py-3 rounded-full group bg-white focus:scale-110 hover:scale-110 active:scale-105 transition cursor-pointer borderBlack dark:bg-white/10"
+          href={profile.upworkLink}
+        >
+          Hire me on
+          <Image
+            width={70}
+            height={70}
+            src={"/UpworkLogo.svg"}
+            alt="Upwork logo"
+          />
+        </Link>
       </motion.div>
     </section>
   );
