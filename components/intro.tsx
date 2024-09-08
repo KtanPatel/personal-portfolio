@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { BsArrowDown, BsLinkedin } from "react-icons/bs";
@@ -15,11 +15,15 @@ import { PopupModal } from "react-calendly";
 export default function Intro() {
   const { ref } = useSectionInView("Home", 0.5);
   const { setActiveSection, setTimeOfLastClick } = useActiveSectionContext();
-
+  const [rootElement, setRootElement] = useState<HTMLElement | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  useEffect(() => {
+    setRootElement(document.getElementById("__next"));
+  }, []);
 
   return (
     <section
@@ -168,7 +172,7 @@ export default function Intro() {
         <div id="__next"></div>
         <PopupModal
           url={profile.scheduleLink}
-          rootElement={document.getElementById("__next")!}
+          rootElement={rootElement as HTMLElement}
           onModalClose={closeModal}
           open={isModalOpen}
         />
